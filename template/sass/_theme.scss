@@ -1,6 +1,14 @@
 :root {
   --screen-size-small: 30em; /* breakpoint reference only */
 }
+
+@font-face {
+    font-family: 'alte_haas_grotesk';
+    src: url('fonts/altehaasgroteskregular-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+         url('font/altehaasgroteskregular-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+         url('font/AlteHaasGroteskRegular.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
 @keyframes intro {
   0% {
     opacity: 0;
