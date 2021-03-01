@@ -18,16 +18,6 @@ editor, path = readConfig(tool_path+'config.json')
 
 
 def buildStatic(name):
-
-    # copy entries to
-
-    template_path = tool_path+"template/"
-    # go into the directory
-    os.system("sh " + template_path+"build.sh " + template_path)
-
-    # specify web url
-    url = template_path+"public/index.html"
-
     # open the browser
     webbrowser.open(url)
 
@@ -49,7 +39,6 @@ if __name__ == "__main__":
     # view.start()
 
     if not os.path.lexists(path+year):
-        print("yes")
         # create directory
         os.makedirs(path+year)
 
@@ -58,7 +47,17 @@ if __name__ == "__main__":
 
     if not os.path.lexists(path+year+"/"+month+"/"+date+".md"):
         # copies the template and creates a new file inside the directory
-        copyfile(tool_path+"template.md", path+year+"/"+month+"/"+date+".md")
+        dest = path+year+"/"+month+"/"+date+".md"
+        copyfile(tool_path+"template.md", dest)
+        # replace {date} with actual date
+        f = open(dest, "rt")
+        data = f.read()
+        data = data.replace('{date}', date)
+        print(data)
+        f.close()
+        f = open(dest, "wt")
+        f.write(data)
+        f.close()
 
     # Command that is used to run
     command = editor + " " + path+year+"/"+month+"/"+date+".md"
