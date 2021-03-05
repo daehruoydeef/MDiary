@@ -1,9 +1,22 @@
 import json
 import os
+import sys
 from datetime import date
 import threading
 import webbrowser
-from shutil import copyfile
+import argparse
+from shutil import copyfile, copytree
+
+my_parser = argparse.ArgumentParser(
+    description='Create date annoted markdown files in directory')
+
+my_parser.add_argument('Build',
+                       metavar='build',
+                       type=bool,
+                       help='build static file')
+
+args = my_parser.parse_args()
+build = args.Build
 
 
 def readConfig(config):
@@ -17,12 +30,17 @@ tool_path = os.path.realpath(__file__).replace("mdiary.py", "")
 editor, path = readConfig(tool_path+'config.json')
 
 
-def buildStatic(name):
-    # open the browser
-    webbrowser.open(url)
+def buildStatic():
+    staticPath = './static/src/markdown-pages/diary'
+    print(staticPath)
+    copytree(path, staticPath)
 
 
 if __name__ == "__main__":
+
+    if (build):
+        buildStatic()
+        sys.exit(0)
 
     today = date.today()
     # Used as title for files
@@ -53,7 +71,8 @@ if __name__ == "__main__":
         f = open(dest, "rt")
         data = f.read()
         data = data.replace('{date}', date)
-        print(data)
+        data = data.replace('{month}', month)
+        data = data.replace('{year}', year)
         f.close()
         f = open(dest, "wt")
         f.write(data)
